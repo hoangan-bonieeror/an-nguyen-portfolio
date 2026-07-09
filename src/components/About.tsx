@@ -86,7 +86,7 @@ export default function About() {
                     <MapPin className="w-4 h-4 text-slate-400" />
                     BACKGROUND:
                   </span>
-                  <span className="text-slate-900 dark:text-white font-semibold text-right">Japan-affiliated Co.</span>
+                  <span className="text-slate-900 dark:text-white font-semibold text-right">Unitec Solution Vietnam Co.</span>
                 </div>
                 {/* Scope Row */}
                 <div className="flex justify-between items-start py-1">
@@ -108,7 +108,7 @@ export default function About() {
                     <span className="text-sky-500">85%</span>
                   </div>
                   <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                    <motion.div 
+                    <motion.div
                       className="h-full bg-gradient-to-r from-sky-500 to-sky-400 rounded-full"
                       initial={{ width: 0 }}
                       whileInView={{ width: "85%" }}
@@ -124,7 +124,7 @@ export default function About() {
                     <span className="text-teal-500">90%</span>
                   </div>
                   <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                    <motion.div 
+                    <motion.div
                       className="h-full bg-gradient-to-r from-teal-500 to-teal-400 rounded-full"
                       initial={{ width: 0 }}
                       whileInView={{ width: "90%" }}
