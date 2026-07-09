@@ -25,7 +25,7 @@ export default function Experience() {
 
         {/* Experience Timeline Container */}
         <div className="max-w-4xl mx-auto relative border-l-2 border-slate-200 dark:border-slate-800 ml-4 md:ml-10 pl-6 md:pl-10 space-y-12 py-4">
-          
+
           {/* Timeline Dot Indicator */}
           <div className="absolute -left-[11px] top-4 w-5 h-5 rounded-full bg-gradient-to-tr from-sky-500 to-teal-400 p-1 shadow-md shadow-sky-500/20">
             <div className="w-full h-full rounded-full bg-white dark:bg-slate-950" />
@@ -40,7 +40,7 @@ export default function Experience() {
                   Software Developer
                 </h4>
                 <p className="text-base font-medium text-slate-700 dark:text-slate-300 font-sans mt-1">
-                  Japan-affiliated Industrial Automation Company
+                  Unitec Solution Vietnam Company
                 </p>
               </div>
 
