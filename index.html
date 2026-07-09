@@ -4,6 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>An Nguyen | Software Developer | Full-Stack & Robotics Automation</title>
+    <script>
+      (function() {
+        const pathname = window.location.pathname;
+        const repoName = "/an-nguyen-portfolio";
+        
+        // Define valid entry routes
+        const isValidPath = 
+          pathname === '/' || 
+          pathname === '/index.html' || 
+          pathname === repoName || 
+          pathname === repoName + '/' || 
+          pathname === repoName + '/index.html';
+        
+        // Exclude asset file requests and internal Vite dev server paths
+        const isAssetOrDev = 
+          pathname.includes('.') || 
+          pathname.startsWith('/src/') || 
+          pathname.startsWith('/@') || 
+          pathname.startsWith('/node_modules/');
+
+        if (!isValidPath && !isAssetOrDev) {
+          const redirectPath = pathname.startsWith(repoName) ? (repoName + '/404.html') : '/404.html';
+          window.location.href = redirectPath;
+        }
+      })();
+    </script>
     <script type="module" crossorigin src="/assets/index-CbSNc1Cq.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-CU3NdLX7.css">
   </head>
