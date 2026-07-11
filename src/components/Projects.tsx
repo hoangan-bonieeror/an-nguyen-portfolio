@@ -80,6 +80,24 @@ const personalProjectsList: PersonalProject[] = [
     status: "In Development",
     concept: "Designed and built a custom content management system (CMS) with draft/publish staging mechanisms.",
     category: "Full-Stack Web App"
+  },
+  {
+    id: "csv-to-database-pipeline",
+    title: "CSV to Database Pipeline",
+    description: "A data engineering pipeline that extracts NYC taxi trip data from public CSV files, cleans and transforms it using Python and pandas, then loads it into a relational database for analysis.",
+    techTags: ["Python", "pandas", "SQLAlchemy", "PostgreSQL", "ETL"],
+    status: "In Development",
+    concept: "Built an ETL workflow covering extraction, cleaning, and schema design, with a stretch goal of automated scheduling via cron.",
+    category: "Data Engineering"
+  },
+  {
+    id: "api-data-ingestion-pipeline",
+    title: "API Data Ingestion Pipeline",
+    description: "A scheduled data pipeline that fetches weather data from the OpenWeatherMap API, incrementally stores it in a database, and surfaces insights through SQL queries and a dashboard.",
+    techTags: ["Python", "Requests", "SQLite", "PostgreSQL", "Data Modeling"],
+    status: "In Development",
+    concept: "Implemented incremental data loading from a third-party API with a stretch goal of adding automated data quality checks.",
+    category: "Data Engineering"
   }
 ];
 
@@ -148,13 +166,12 @@ export default function Projects() {
                     <div className="w-12 h-[1px] border-t border-dashed border-slate-300 dark:border-slate-700" />
                     <Cpu className="w-8 h-8 stroke-[1.5]" />
                   </div>
-                  
+
                   {/* Status Badge */}
-                  <span className={`absolute top-4 right-4 text-[10px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded border ${
-                    project.status === 'Completed'
+                  <span className={`absolute top-4 right-4 text-[10px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded border ${project.status === 'Completed'
                       ? 'bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20'
                       : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20'
-                  }`}>
+                    }`}>
                     {project.status}
                   </span>
                 </div>
