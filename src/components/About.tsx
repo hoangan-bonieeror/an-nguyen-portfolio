@@ -24,7 +24,7 @@ export default function About() {
           {/* Left Bio Column */}
           <div className="lg:col-span-7 space-y-6 text-slate-600 dark:text-slate-400 font-sans text-base leading-relaxed">
             <p>
-              I'm <strong className="text-slate-900 dark:text-white font-medium">An Nguyen</strong>, a Software Developer with <span className="text-sky-600 dark:text-sky-400 font-semibold">2 years and 6 months</span> of experience at a Japan-affiliated company. In this role, I built full-stack web applications (Angular, Python/Flask) and embedded systems (Python, Raspberry Pi) designed specifically for industrial automation.
+              I'm <strong className="text-slate-900 dark:text-white font-medium">An Nguyen</strong>, a Software Developer with <span className="text-sky-600 dark:text-sky-400 font-semibold">2 years and 6 months</span> of experience at a Unitec Solution Vietnam company. In this role, I built full-stack web applications (Angular, Python/Flask) and embedded systems (Python, Raspberry Pi) designed specifically for industrial automation.
             </p>
             <p>
               My work spans across <strong className="text-slate-900 dark:text-white font-medium">robotics control</strong> (AMR/AGV utilizing ROS2, SLAM, Nav2), real-time environmental monitoring, and factory process automation. I specialize in developing complete systems that integrate physical devices with web dashboard controls.
