@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ExternalLink, Terminal, Sparkles, Cpu, GitBranch } from "lucide-react";
-import { Project } from "../types";
+import type { Project } from "../types";
 import {
   AMRIllustration,
   LEDIllustration,
@@ -8,101 +8,100 @@ import {
   AGVIllustration,
   CanteenIllustration,
 } from "./ProjectIllustrations";
-
-const projectsList: Project[] = [
-  {
-    id: "project-amr",
-    title: "AMR Fleet Management & Navigation System",
-    description:
-      "Full-stack website and firmware for controlling Autonomous Mobile Robots. Implemented SLAM for environment mapping and Nav2 for collision-free navigation with client-defined points and routes.",
-    techTags: ["Angular", "Python / Flask", "ROS2", "SLAM", "Nav2"],
-    iconType: "amr",
-  },
-  {
-    id: "project-led",
-    title: "Factory LED & Audio Alert System",
-    description:
-      "Embedded firmware for a real-time industrial temperature/humidity alert system using a 3-LED indicator (Red/Yellow/Green) and an audible alarm connected to low-latency GPIO channels.",
-    techTags: ["Python", "Raspberry Pi 5", "GPIO", "Hardware Sensors"],
-    iconType: "led",
-  },
-  {
-    id: "project-monitor",
-    title: "Real-Time Environmental Monitoring Dashboard",
-    description:
-      "Web application for real-time temperature and humidity monitoring across factory areas via scattered Raspberry Pi sensor nodes, with live-updating SVG charts and configurable alarm thresholds.",
-    techTags: ["Angular", "Python / Flask", "Raspberry Pi", "REST APIs"],
-    iconType: "monitoring",
-  },
-  {
-    id: "project-agv",
-    title: "AGV Route Planning & Control Website",
-    description:
-      "Full-stack website letting industrial clients define interactive coordinate points and routes to direct Automated Guided Vehicles (AGV) dynamically through factory facility grids.",
-    techTags: ["Angular", "Python / Flask", "Route Optimization"],
-    iconType: "agv",
-  },
-  {
-    id: "project-canteen",
-    title: "Canteen Meal Automation & Fingerprint Verification",
-    description:
-      "Full-stack website automating canteen meal registration and distribution. Integrates fingerprint biometric authentication to guarantee factory workers receive their correct assigned meal.",
-    techTags: ["Angular", "Python / Flask", "Biometric Integration", "PostgreSQL"],
-    iconType: "canteen",
-  },
-];
+import { useLanguage } from "../contexts/LanguageContext";
 
 interface PersonalProject {
   id: string;
   title: string;
   description: string;
   techTags: string[];
-  status: "Completed" | "In Development" | "Active";
+  status: string;
   concept: string;
   category: string;
 }
 
-const personalProjectsList: PersonalProject[] = [
-  {
-    id: "personal-payroll",
-    title: "Salary Management System",
-    description: "Full-stack application for automated salary calculations and customizable payroll configuration. Calculates net pay based on basic salary, deductions, advances, bonuses, and insurance profiles.",
-    techTags: ["Angular", "Express.js", "Node.js", "REST APIs", "SQL"],
-    status: "In Development",
-    concept: "Implemented a customizable policy engine allowing business users to define payroll rules and calculations dynamically.",
-    category: "Full-Stack Web App"
-  },
-  {
-    id: "personal-interior",
-    title: "Coco Studio",
-    description: "A dual-sided web platform featuring a public showcase landing page for clients and a secure administrative portal to manage blogs, draft articles, and stage content publication.",
-    techTags: ["Angular", "Express.js", "Node.js", "CMS Development", "SQL"],
-    status: "In Development",
-    concept: "Designed and built a custom content management system (CMS) with draft/publish staging mechanisms.",
-    category: "Full-Stack Web App"
-  },
-  {
-    id: "csv-to-database-pipeline",
-    title: "CSV to Database Pipeline",
-    description: "A data engineering pipeline that extracts NYC taxi trip data from public CSV files, cleans and transforms it using Python and pandas, then loads it into a relational database for analysis.",
-    techTags: ["Python", "pandas", "SQLAlchemy", "PostgreSQL", "ETL"],
-    status: "In Development",
-    concept: "Built an ETL workflow covering extraction, cleaning, and schema design, with a stretch goal of automated scheduling via cron.",
-    category: "Data Engineering"
-  },
-  {
-    id: "api-data-ingestion-pipeline",
-    title: "API Data Ingestion Pipeline",
-    description: "A scheduled data pipeline that fetches weather data from the OpenWeatherMap API, incrementally stores it in a database, and surfaces insights through SQL queries and a dashboard.",
-    techTags: ["Python", "Requests", "SQLite", "PostgreSQL", "Data Modeling"],
-    status: "In Development",
-    concept: "Implemented incremental data loading from a third-party API with a stretch goal of adding automated data quality checks.",
-    category: "Data Engineering"
-  }
-];
-
 export default function Projects() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const { t } = useLanguage();
+  const p = t.projects;
+
+  // Build project lists from translations so they update on locale change
+  const projectsList: Project[] = [
+    {
+      id: "project-amr",
+      title: p.amr_title,
+      description: p.amr_desc,
+      techTags: ["Angular", "Python / Flask", "ROS2", "SLAM", "Nav2"],
+      iconType: "amr",
+    },
+    {
+      id: "project-led",
+      title: p.led_title,
+      description: p.led_desc,
+      techTags: ["Python", "Raspberry Pi 5", "GPIO", "Hardware Sensors"],
+      iconType: "led",
+    },
+    {
+      id: "project-monitor",
+      title: p.monitor_title,
+      description: p.monitor_desc,
+      techTags: ["Angular", "Python / Flask", "Raspberry Pi", "REST APIs"],
+      iconType: "monitoring",
+    },
+    {
+      id: "project-agv",
+      title: p.agv_title,
+      description: p.agv_desc,
+      techTags: ["Angular", "Python / Flask", "Route Optimization"],
+      iconType: "agv",
+    },
+    {
+      id: "project-canteen",
+      title: p.canteen_title,
+      description: p.canteen_desc,
+      techTags: ["Angular", "Python / Flask", "Biometric Integration", "PostgreSQL"],
+      iconType: "canteen",
+    },
+  ];
+
+  const personalProjectsList: PersonalProject[] = [
+    {
+      id: "personal-payroll",
+      title: p.payroll_title,
+      description: p.payroll_desc,
+      techTags: ["Angular", "Express.js", "Node.js", "REST APIs", "SQL"],
+      status: p.statusInDevelopment,
+      concept: p.payroll_concept,
+      category: p.payroll_category,
+    },
+    {
+      id: "personal-interior",
+      title: p.interior_title,
+      description: p.interior_desc,
+      techTags: ["Angular", "Express.js", "Node.js", "CMS Development", "SQL"],
+      status: p.statusInDevelopment,
+      concept: p.interior_concept,
+      category: p.interior_category,
+    },
+    {
+      id: "csv-to-database-pipeline",
+      title: p.csv_title,
+      description: p.csv_desc,
+      techTags: ["Python", "pandas", "SQLAlchemy", "PostgreSQL", "ETL"],
+      status: p.statusInDevelopment,
+      concept: p.csv_concept,
+      category: p.csv_category,
+    },
+    {
+      id: "api-data-ingestion-pipeline",
+      title: p.api_title,
+      description: p.api_desc,
+      techTags: ["Python", "Requests", "SQLite", "PostgreSQL", "Data Modeling"],
+      status: p.statusInDevelopment,
+      concept: p.api_concept,
+      category: p.api_category,
+    },
+  ];
 
   const renderIllustration = (iconType: string, isHovered: boolean) => {
     switch (iconType) {
@@ -130,10 +129,10 @@ export default function Projects() {
         {/* Section Header */}
         <div className="text-center md:text-left mb-16">
           <h2 className="text-sm font-mono uppercase tracking-widest text-teal-600 dark:text-teal-400 font-bold mb-2">
-            03. Portfolio
+            {p.sectionLabel}
           </h2>
           <h3 className="text-3xl sm:text-4xl font-display font-bold text-slate-900 dark:text-white">
-            Projects
+            {p.heading}
           </h3>
           <div className="mt-4 w-12 h-1 bg-gradient-to-r from-sky-500 to-teal-400 rounded-full mx-auto md:mx-0" />
         </div>
@@ -142,13 +141,13 @@ export default function Projects() {
         <div className="mb-20">
           <div className="mb-8 pb-4 border-b border-slate-200/60 dark:border-slate-800/60">
             <h4 className="text-xl font-display font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-              Personal Projects
+              {p.personalLabel}
               <span className="text-xs font-mono font-semibold px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
-                Independent Development
+                {p.personalBadge}
               </span>
             </h4>
             <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 font-sans">
-              Self-initiated full-stack applications built to solve real-world problems and explore modern architectures.
+              {p.personalDesc}
             </p>
           </div>
 
@@ -168,10 +167,13 @@ export default function Projects() {
                   </div>
 
                   {/* Status Badge */}
-                  <span className={`absolute top-4 right-4 text-[10px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded border ${project.status === 'Completed'
-                      ? 'bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20'
-                      : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20'
-                    }`}>
+                  <span
+                    className={`absolute top-4 right-4 text-[10px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded border ${
+                      project.status === p.statusCompleted
+                        ? "bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20"
+                        : "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
+                    }`}
+                  >
                     {project.status}
                   </span>
                 </div>
@@ -197,7 +199,7 @@ export default function Projects() {
                     {/* Concept Focus Box */}
                     <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800/60 mb-6">
                       <span className="text-[9px] font-mono uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold block mb-1">
-                        Concept Focus
+                        {p.conceptFocus}
                       </span>
                       <p className="text-xs text-slate-600 dark:text-slate-400 font-sans italic leading-relaxed">
                         {project.concept}
@@ -226,10 +228,10 @@ export default function Projects() {
         <div>
           <div className="mb-8 pb-4 border-b border-slate-200/60 dark:border-slate-800/60">
             <h4 className="text-xl font-display font-bold text-slate-800 dark:text-slate-200">
-              Featured Work
+              {p.featuredLabel}
             </h4>
             <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 font-sans">
-              Production-ready applications and embedded solutions built for industrial and client deployments.
+              {p.featuredDesc}
             </p>
           </div>
 
@@ -253,7 +255,7 @@ export default function Projects() {
                       <div className="flex justify-between items-center mb-3">
                         <span className="text-[10px] font-mono font-medium tracking-wider text-sky-500 dark:text-sky-400 uppercase flex items-center gap-1">
                           <Terminal className="w-3 h-3" />
-                          Embedded & Web
+                          {p.embeddedWeb}
                         </span>
                         <div className="text-slate-400 dark:text-slate-500 group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors">
                           <ExternalLink className="w-4 h-4" />

@@ -1,7 +1,10 @@
 import { motion } from "motion/react";
 import { ArrowRight, Cpu, Globe, Rocket, CheckCircle } from "lucide-react";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export default function Hero() {
+  const { t } = useLanguage();
+
   const scrollToSection = (id: string) => {
     const el = document.querySelector(id);
     if (el) {
@@ -16,7 +19,7 @@ export default function Hero() {
     >
       {/* Decorative Background Elements */}
       <div className="absolute inset-0 bg-grid-pattern-light dark:bg-grid-pattern-dark opacity-100 transition-opacity" />
-      
+
       {/* Glowing atmospheric background radial elements */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-sky-500/10 dark:bg-sky-500/5 blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-teal-500/10 dark:bg-teal-500/5 blur-3xl pointer-events-none" />
@@ -32,12 +35,12 @@ export default function Hero() {
           {/* Status badge representing availability or current status */}
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 text-xs font-mono font-medium mx-auto mb-2 shadow-sm">
             <CheckCircle className="w-3.5 h-3.5 text-sky-500 dark:text-sky-400 animate-pulse" />
-            Open to New Opportunities
+            {t.hero.badge}
           </div>
 
           {/* Small Intro Greeting */}
           <p className="text-sm sm:text-base font-mono font-semibold tracking-widest text-teal-600 dark:text-teal-400 uppercase">
-            Hello, my name is
+            {t.hero.greeting}
           </p>
 
           {/* Name Display */}
@@ -47,27 +50,30 @@ export default function Hero() {
 
           {/* Title */}
           <h2 className="text-xl sm:text-2xl md:text-3xl font-sans font-medium text-slate-800 dark:text-slate-200">
-            Software Developer | <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-teal-400 font-semibold">Full-Stack & Robotics Automation</span>
+            {t.hero.subtitle} |{" "}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-teal-400 font-semibold">
+              {t.hero.specialization}
+            </span>
           </h2>
 
           {/* Tagline */}
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-sans font-normal leading-relaxed">
-            Building software that bridges web applications, embedded systems, and industrial automation.
+            {t.hero.tagline}
           </p>
 
           {/* Key pillars labels */}
           <div className="grid grid-cols-3 gap-3 max-w-lg mx-auto pt-4 font-mono text-xs text-slate-500 dark:text-slate-400">
             <div className="flex flex-col items-center p-2 rounded bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800/50">
               <Globe className="w-4 h-4 text-sky-400 mb-1" />
-              <span>Full-Stack Web</span>
+              <span>{t.hero.pillar1}</span>
             </div>
             <div className="flex flex-col items-center p-2 rounded bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800/50">
               <Cpu className="w-4 h-4 text-emerald-400 mb-1" />
-              <span>IoT & Embedded</span>
+              <span>{t.hero.pillar2}</span>
             </div>
             <div className="flex flex-col items-center p-2 rounded bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800/50">
               <Rocket className="w-4 h-4 text-teal-400 mb-1" />
-              <span>ROS2 Robotics</span>
+              <span>{t.hero.pillar3}</span>
             </div>
           </div>
 
@@ -78,7 +84,7 @@ export default function Hero() {
               onClick={() => scrollToSection("#contact")}
               className="px-6 py-3.5 rounded-lg bg-gradient-to-r from-sky-500 to-teal-400 text-white font-medium font-sans hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-lg shadow-sky-500/25 group cursor-pointer"
             >
-              Get In Touch
+              {t.hero.cta1}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
             <button
@@ -86,7 +92,7 @@ export default function Hero() {
               onClick={() => scrollToSection("#projects")}
               className="px-6 py-3.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-medium font-sans transition-colors cursor-pointer"
             >
-              View Work
+              {t.hero.cta2}
             </button>
           </div>
         </motion.div>

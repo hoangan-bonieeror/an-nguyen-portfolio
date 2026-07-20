@@ -1,24 +1,30 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Sun, Moon, Terminal } from "lucide-react";
+import { Menu, X, Sun, Moon, Terminal, Languages } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { useLanguage } from "../contexts/LanguageContext";
+import type { Locale } from "../i18n";
 
 interface NavbarProps {
   darkMode: boolean;
   setDarkMode: (dark: boolean) => void;
 }
 
-const navLinks = [
-  { name: "About", href: "#about" },
-  { name: "Skills", href: "#skills" },
-  { name: "Projects", href: "#projects" },
-  { name: "Experience", href: "#experience" },
-  { name: "Contact", href: "#contact" },
-];
-
 export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const [langOpen, setLangOpen] = useState(false);
+  const { locale, setLocale, t, localeLabels } = useLanguage();
+
+  const navLinks = [
+    { name: t.nav.about, href: "#about" },
+    { name: t.nav.skills, href: "#skills" },
+    { name: t.nav.projects, href: "#projects" },
+    { name: t.nav.experience, href: "#experience" },
+    { name: t.nav.contact, href: "#contact" },
+  ];
+
+  const allLocales: Locale[] = ["en", "es", "vi"];
 
   // Track scrolling to add background blur effect
   useEffect(() => {
@@ -47,7 +53,15 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [navLinks]);
+
+  // Close lang dropdown when clicking outside
+  useEffect(() => {
+    if (!langOpen) return;
+    const close = () => setLangOpen(false);
+    window.addEventListener("click", close);
+    return () => window.removeEventListener("click", close);
+  }, [langOpen]);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -88,13 +102,13 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
           </a>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6">
             <div className="flex gap-6">
               {navLinks.map((link) => {
                 const isActive = activeSection === link.href;
                 return (
                   <a
-                    key={link.name}
+                    key={link.href}
                     href={link.href}
                     onClick={(e) => {
                       e.preventDefault();
@@ -120,6 +134,48 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
             </div>
 
             <div className="h-5 w-[1px] bg-slate-200 dark:bg-slate-800" />
+
+            {/* Language Switcher (Desktop) */}
+            <div className="relative" onClick={(e) => e.stopPropagation()}>
+              <button
+                id="lang-toggle"
+                onClick={() => setLangOpen(!langOpen)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200/60 dark:border-slate-800/60 transition-colors text-sm font-mono"
+                aria-label="Switch language"
+              >
+                <Languages className="w-4 h-4" />
+                <span>{localeLabels[locale].flag} {localeLabels[locale].code}</span>
+              </button>
+              <AnimatePresence>
+                {langOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6, scale: 0.97 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -6, scale: 0.97 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 top-full mt-2 w-36 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-xl shadow-xl overflow-hidden"
+                  >
+                    {allLocales.map((loc) => (
+                      <button
+                        key={loc}
+                        onClick={() => { setLocale(loc); setLangOpen(false); }}
+                        className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-mono transition-colors ${
+                          locale === loc
+                            ? "bg-sky-500/10 text-sky-600 dark:text-sky-400 font-semibold"
+                            : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
+                        }`}
+                      >
+                        <span>{localeLabels[loc].flag}</span>
+                        <span>{localeLabels[loc].code}</span>
+                        {locale === loc && (
+                          <span className="ml-auto w-1.5 h-1.5 rounded-full bg-sky-500" />
+                        )}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* Light / Dark Mode Toggle */}
             <button
@@ -167,7 +223,7 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
               const isActive = activeSection === link.href;
               return (
                 <a
-                  key={link.name}
+                  key={link.href}
                   href={link.href}
                   onClick={(e) => {
                     e.preventDefault();
@@ -183,6 +239,27 @@ export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
                 </a>
               );
             })}
+
+            {/* Language switcher in mobile drawer */}
+            <div className="pt-3 border-t border-slate-100 dark:border-slate-800">
+              <p className="text-xs font-mono text-slate-400 px-3 pb-2 uppercase tracking-wider">Language</p>
+              <div className="flex gap-2 px-3">
+                {allLocales.map((loc) => (
+                  <button
+                    key={loc}
+                    onClick={() => { setLocale(loc); setIsOpen(false); }}
+                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-mono border transition-colors ${
+                      locale === loc
+                        ? "bg-sky-500/10 border-sky-500/30 text-sky-600 dark:text-sky-400 font-semibold"
+                        : "border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900"
+                    }`}
+                  >
+                    <span>{localeLabels[loc].flag}</span>
+                    <span>{localeLabels[loc].code}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

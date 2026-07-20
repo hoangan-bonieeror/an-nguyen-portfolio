@@ -1,7 +1,40 @@
 import { motion } from "motion/react";
 import { User, Calendar, Cpu, MapPin, Award } from "lucide-react";
+import { useLanguage } from "../contexts/LanguageContext";
+
+/** Renders translated bio strings that use <strong> and <highlight> tags */
+function BioText({ raw }: { raw: string }) {
+  // Replace <strong>...</strong> and <highlight>...</highlight> with JSX
+  const parts = raw.split(/(<strong>.*?<\/strong>|<highlight>.*?<\/highlight>)/g);
+  return (
+    <>
+      {parts.map((part, i) => {
+        if (part.startsWith("<strong>")) {
+          const inner = part.replace(/<\/?strong>/g, "");
+          return (
+            <strong key={i} className="text-slate-900 dark:text-white font-medium">
+              {inner}
+            </strong>
+          );
+        }
+        if (part.startsWith("<highlight>")) {
+          const inner = part.replace(/<\/?highlight>/g, "");
+          return (
+            <span key={i} className="text-sky-600 dark:text-sky-400 font-semibold">
+              {inner}
+            </span>
+          );
+        }
+        return <span key={i}>{part}</span>;
+      })}
+    </>
+  );
+}
 
 export default function About() {
+  const { t } = useLanguage();
+  const a = t.about;
+
   return (
     <section
       id="about"
@@ -11,10 +44,10 @@ export default function About() {
         {/* Section Header */}
         <div className="text-center md:text-left mb-16">
           <h2 className="text-sm font-mono uppercase tracking-widest text-teal-600 dark:text-teal-400 font-bold mb-2">
-            01. Background
+            {a.sectionLabel}
           </h2>
           <h3 className="text-3xl sm:text-4xl font-display font-bold text-slate-900 dark:text-white">
-            About Me
+            {a.heading}
           </h3>
           <div className="mt-4 w-12 h-1 bg-gradient-to-r from-sky-500 to-teal-400 rounded-full mx-auto md:mx-0" />
         </div>
@@ -23,15 +56,9 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Left Bio Column */}
           <div className="lg:col-span-7 space-y-6 text-slate-600 dark:text-slate-400 font-sans text-base leading-relaxed">
-            <p>
-              I'm <strong className="text-slate-900 dark:text-white font-medium">An Nguyen</strong>, a Software Developer with <span className="text-sky-600 dark:text-sky-400 font-semibold">2 years and 6 months</span> of experience at a Unitec Solution Vietnam company. In this role, I built full-stack web applications (Angular, Python/Flask) and embedded systems (Python, Raspberry Pi) designed specifically for industrial automation.
-            </p>
-            <p>
-              My work spans across <strong className="text-slate-900 dark:text-white font-medium">robotics control</strong> (AMR/AGV utilizing ROS2, SLAM, Nav2), real-time environmental monitoring, and factory process automation. I specialize in developing complete systems that integrate physical devices with web dashboard controls.
-            </p>
-            <p>
-              I enjoy solving problems that require both clean, modular software architecture and reliable, low-latency hardware integration. Whether designing REST APIs, programming embedded controllers, or mapping navigation nodes, I strive to build robust, production-grade solutions.
-            </p>
+            <p><BioText raw={a.bio1} /></p>
+            <p><BioText raw={a.bio2} /></p>
+            <p>{a.bio3}</p>
 
             {/* Quick Core Principles */}
             <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -40,8 +67,10 @@ export default function About() {
                   <Cpu className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-sm">Hardware & Software Integration</h4>
-                  <p className="text-xs text-slate-500">Connecting web layers to microcontrollers and physical actuators.</p>
+                  <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-sm">
+                    {a.principle1Title}
+                  </h4>
+                  <p className="text-xs text-slate-500">{a.principle1Desc}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -49,8 +78,10 @@ export default function About() {
                   <Award className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-sm">Industrial Grade Quality</h4>
-                  <p className="text-xs text-slate-500">Creating systems optimized for 24/7 reliability in factories.</p>
+                  <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-sm">
+                    {a.principle2Title}
+                  </h4>
+                  <p className="text-xs text-slate-500">{a.principle2Desc}</p>
                 </div>
               </div>
             </div>
@@ -63,7 +94,9 @@ export default function About() {
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
                 <div className="flex items-center gap-2">
                   <User className="w-5 h-5 text-sky-500" />
-                  <span className="font-display font-bold text-slate-900 dark:text-white text-base">Profile Specifications</span>
+                  <span className="font-display font-bold text-slate-900 dark:text-white text-base">
+                    {a.profileTitle}
+                  </span>
                 </div>
                 <div className="text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2 py-1 rounded">
                   SYS_INFO v2.6
@@ -72,39 +105,40 @@ export default function About() {
 
               {/* Stats Rows */}
               <div className="space-y-4 font-mono text-sm">
-                {/* Exp Row */}
                 <div className="flex justify-between items-center py-1">
                   <span className="text-slate-500 flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-slate-400" />
-                    EXPERIENCE:
+                    {a.expLabel}
                   </span>
-                  <span className="text-slate-900 dark:text-sky-400 font-semibold text-right">2 Years, 6 Months</span>
+                  <span className="text-slate-900 dark:text-sky-400 font-semibold text-right">
+                    {a.expValue}
+                  </span>
                 </div>
-                {/* Location Row */}
                 <div className="flex justify-between items-center py-1">
                   <span className="text-slate-500 flex items-center gap-2">
                     <MapPin className="w-4 h-4 text-slate-400" />
-                    BACKGROUND:
+                    {a.bgLabel}
                   </span>
-                  <span className="text-slate-900 dark:text-white font-semibold text-right">Unitec Solution Vietnam Co.</span>
+                  <span className="text-slate-900 dark:text-white font-semibold text-right">
+                    {a.bgValue}
+                  </span>
                 </div>
-                {/* Scope Row */}
                 <div className="flex justify-between items-start py-1">
                   <span className="text-slate-500 flex items-center gap-2 mt-0.5">
                     <Cpu className="w-4 h-4 text-slate-400" />
-                    DOMAIN:
+                    {a.domainLabel}
                   </span>
                   <span className="text-slate-900 dark:text-white font-semibold text-right max-w-[200px]">
-                    Full-Stack Web, Embedded Systems & ROS2
+                    {a.domainValue}
                   </span>
                 </div>
               </div>
 
-              {/* Graphical Status indicators to make it feel like a real tech-dashboard */}
+              {/* Graphical Status indicators */}
               <div className="space-y-3 pt-2">
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs font-mono">
-                    <span className="text-slate-500">WEB APPLICATION ARCHITECTURE</span>
+                    <span className="text-slate-500">{a.stat1Label}</span>
                     <span className="text-sky-500">85%</span>
                   </div>
                   <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
@@ -120,7 +154,7 @@ export default function About() {
 
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs font-mono">
-                    <span className="text-slate-500">ROBOTICS & EMBEDDED SYSTEM INTEGRATION</span>
+                    <span className="text-slate-500">{a.stat2Label}</span>
                     <span className="text-teal-500">90%</span>
                   </div>
                   <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">

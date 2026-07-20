@@ -10,6 +10,7 @@ import {
   SiCplusplus,
   SiRaspberrypi,
 } from "react-icons/si";
+import { useLanguage } from "../contexts/LanguageContext";
 
 interface Skill {
   name: string;
@@ -17,17 +18,20 @@ interface Skill {
   color: string;
 }
 
+type SkillsTitleKey = "cat1" | "cat2" | "cat3" | "cat4" | "cat5";
+
 interface SkillCategory {
-  title: string;
+  titleKey: SkillsTitleKey;
   icon: React.ReactNode;
   skills: Skill[];
   colorClass: string;
   bgClass: string;
 }
 
+
 const skillCategories: SkillCategory[] = [
   {
-    title: "Frontend",
+    titleKey: "cat1",
     icon: <Layout className="w-5 h-5" />,
     colorClass: "text-sky-500 border-sky-500/20 dark:border-sky-500/10",
     bgClass: "bg-sky-500/5",
@@ -39,7 +43,7 @@ const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    title: "Backend",
+    titleKey: "cat2",
     icon: <Server className="w-5 h-5" />,
     colorClass: "text-blue-500 border-blue-500/20 dark:border-blue-500/10",
     bgClass: "bg-blue-500/5",
@@ -50,7 +54,7 @@ const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    title: "Robotics & Automation",
+    titleKey: "cat3",
     icon: <Compass className="w-5 h-5" />,
     colorClass: "text-teal-500 border-teal-500/20 dark:border-teal-500/10",
     bgClass: "bg-teal-500/5",
@@ -64,7 +68,7 @@ const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    title: "Embedded / Firmware",
+    titleKey: "cat4",
     icon: <Cpu className="w-5 h-5" />,
     colorClass: "text-emerald-500 border-emerald-500/20 dark:border-emerald-500/10",
     bgClass: "bg-emerald-500/5",
@@ -76,7 +80,7 @@ const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    title: "Systems & Integration",
+    titleKey: "cat5",
     icon: <Layers className="w-5 h-5" />,
     colorClass: "text-indigo-500 border-indigo-500/20 dark:border-indigo-500/10",
     bgClass: "bg-indigo-500/5",
@@ -89,16 +93,19 @@ const skillCategories: SkillCategory[] = [
 ];
 
 export default function Skills() {
+  const { t } = useLanguage();
+  const s = t.skills;
+
   return (
     <section id="skills" className="py-24 bg-white dark:bg-slate-950 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center md:text-left mb-16">
           <h2 className="text-sm font-mono uppercase tracking-widest text-teal-600 dark:text-teal-400 font-bold mb-2">
-            02. Expertise
+            {s.sectionLabel}
           </h2>
           <h3 className="text-3xl sm:text-4xl font-display font-bold text-slate-900 dark:text-white">
-            Skills &amp; Technologies
+            {s.heading}
           </h3>
           <div className="mt-4 w-12 h-1 bg-gradient-to-r from-sky-500 to-teal-400 rounded-full mx-auto md:mx-0" />
         </div>
@@ -107,7 +114,7 @@ export default function Skills() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skillCategories.map((category) => (
             <div
-              key={category.title}
+              key={category.titleKey}
               className="p-6 rounded-xl border border-slate-200/80 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 hover:shadow-lg transition-all duration-300 group"
             >
               <div className="flex items-center gap-3 mb-6">
@@ -117,7 +124,7 @@ export default function Skills() {
                   {category.icon}
                 </div>
                 <h4 className="font-display font-bold text-lg text-slate-800 dark:text-slate-200 group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors">
-                  {category.title}
+                  {s[category.titleKey]}
                 </h4>
               </div>
 
